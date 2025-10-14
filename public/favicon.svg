@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 280" fill="none">
+  <circle cx="140" cy="140" r="140" fill="#D4A825"/>
+  <g transform="translate(40, 45)">
+    <!-- Simplified chicken icon based on PoultryProLogo -->
+    <path d="M 20 95 Q 12 75, 20 55 Q 25 40, 38 28 Q 54 16, 72 16 Q 88 18, 100 26 Q 108 33, 116 43 Q 124 53, 132 62 Q 140 68, 152 68 Q 160 68, 164 62 Q 168 56, 168 48"
+          stroke="#FFFFFF" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 168 48 Q 166 40, 164 36 Q 166 30, 170 28 Q 174 28, 176 32 Q 177 36, 175 40"
+          stroke="#FFFFFF" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="170" cy="45" r="5" fill="#FFFFFF"/>
+    <path d="M 168 50 Q 160 58, 152 66 Q 144 72, 136 77"
+          stroke="#FFFFFF" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 54 75 Q 70 78, 86 78 Q 98 76, 106 74"
+          stroke="#FFFFFF" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 136 77 Q 132 90, 124 103 Q 116 116, 106 125 Q 94 132, 78 135 Q 62 136, 50 132 Q 38 126, 32 116 Q 26 106, 24 96 Q 22 90, 22 85"
+          stroke="#FFFFFF" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 22 85 Q 20 92, 22 95"
+          stroke="#FFFFFF" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 32 116 Q 29 124, 27 132"
+          stroke="#FFFFFF" stroke-width="10" fill="none" stroke-linecap="round"/>
+    <path d="M 78 135 Q 78 147, 74 155 Q 72 161, 70 164"
+          stroke="#FFFFFF" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 70 164 Q 64 164, 59 164" stroke="#FFFFFF" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <path d="M 70 164 Q 72 166, 75 166" stroke="#FFFFFF" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <path d="M 106 125 Q 110 137, 112 147 Q 114 155, 115 164"
+          stroke="#FFFFFF" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 115 164 Q 109 164, 104 164" stroke="#FFFFFF" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <path d="M 115 164 Q 118 166, 121 166" stroke="#FFFFFF" stroke-width="8" fill="none" stroke-linecap="round"/>
+  </g>
+</svg>
