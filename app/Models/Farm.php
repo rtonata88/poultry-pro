@@ -37,19 +37,25 @@ class Farm extends Model
 
     /**
      * Calculate total available egg stock for this farm
-     * Available = Sum of all closing stocks - Sum of all dispatches
+     * Available = Latest closing stock from the most recent production record
      */
     public function availableEggStock(): int
     {
-        // Get all egg production records for this farm's coops/flocks
-        $totalClosingStock = EggDailyProduction::whereHas('flock.coop', function ($query) {
+        // Get the most recent egg production record for this farm's coops/flocks
+        $latestProduction = EggDailyProduction::whereHas('flock.coop', function ($query) {
             $query->where('farm_id', $this->id);
-        })->sum('closing_stock');
+        })
+        ->orderBy('date', 'desc')
+        ->first();
 
-        // Get total eggs already dispatched from this farm
-        $totalDispatched = $this->eggDispatches()->sum('quantity');
+        // If no production records exist, return 0
+        if (!$latestProduction) {
+            return 0;
+        }
 
-        return max(0, $totalClosingStock - $totalDispatched);
+        // The closing stock already accounts for everything:
+        // opening stock + eggs produced - damaged - dispatched = closing stock
+        return max(0, $latestProduction->closing_stock);
     }
 
     /**

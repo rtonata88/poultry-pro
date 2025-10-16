@@ -137,8 +137,9 @@
                             <flux:input wire:model="breed" :label="__('Breed')" type="text" placeholder="e.g., Rhode Island Red" />
                         </div>
 
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5">
                             <flux:input wire:model="placement_date" :label="__('Placement Date')" type="date" required />
+                            <flux:input wire:model="age_in_weeks" :label="__('Age in Weeks')" type="number" min="0" required placeholder="Age at placement" />
                             <flux:input wire:model="initial_quantity" :label="__('Initial Quantity')" type="number" min="1" required placeholder="Number of birds" />
                         </div>
 

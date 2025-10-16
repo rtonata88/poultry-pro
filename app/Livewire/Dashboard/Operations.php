@@ -298,30 +298,19 @@ class Operations extends Component
             }
             $feedRecords = $feedQuery->get();
             $feedData = [
-                'opening_stock' => 0, // We'll calculate this from inventory
-                'received' => 0, // From feed receipts
+                'opening_stock' => $feedRecords->sum('opening_stock'),
+                'received' => $feedRecords->sum('received'),
                 'used' => $feedRecords->sum('quantity_used'),
-                'closing_stock' => 0,
+                'closing_stock' => $feedRecords->sum('closing_stock'),
             ];
 
-            // Get feed receipts for the day
-            // Note: Receipts are by farm, so filter by farm if flock is selected
-            $receiptQuery = \App\Models\FeedReceipt::whereDate('date', $dateStr);
-            if ($this->filterFlock) {
-                $selectedFlock = Flock::find($this->filterFlock);
-                if ($selectedFlock) {
-                    $receiptQuery->where('farm_id', $selectedFlock->coop->farm_id);
-                }
-            }
-            $feedReceipts = $receiptQuery->sum('quantity');
-            $feedData['received'] = $feedReceipts;
-
-            // Calculate age in weeks based on flock placement date
+            // Calculate age in weeks based on flock placement date and starting age
             $ageInWeeks = 0;
             if ($this->filterFlock) {
                 $selectedFlock = Flock::find($this->filterFlock);
                 if ($selectedFlock && $selectedFlock->placement_date) {
-                    $ageInWeeks = (int) floor($date->diffInDays($selectedFlock->placement_date) / 7);
+                    $weeksSincePlacement = (int) floor($selectedFlock->placement_date->diffInDays($date) / 7);
+                    $ageInWeeks = $selectedFlock->age_in_weeks + $weeksSincePlacement;
                 }
             } else {
                 // If showing all flocks, calculate average age or use the oldest flock
@@ -330,7 +319,8 @@ class Operations extends Component
                     ->orderBy('placement_date')
                     ->first();
                 if ($activeFlocks && $activeFlocks->placement_date) {
-                    $ageInWeeks = (int) floor($date->diffInDays($activeFlocks->placement_date) / 7);
+                    $weeksSincePlacement = (int) floor($activeFlocks->placement_date->diffInDays($date) / 7);
+                    $ageInWeeks = $activeFlocks->age_in_weeks + $weeksSincePlacement;
                 }
             }
 

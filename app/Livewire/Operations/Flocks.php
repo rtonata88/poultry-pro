@@ -18,6 +18,7 @@ class Flocks extends Component
     public $batch_number = '';
     public $breed = '';
     public $placement_date = '';
+    public $age_in_weeks = 0;
     public $initial_quantity = '';
     public $source = '';
     public $status = 'active';
@@ -38,6 +39,7 @@ class Flocks extends Component
             'batch_number' => 'required|string|max:255|unique:flocks,batch_number,' . $this->editingId,
             'breed' => 'nullable|string|max:255',
             'placement_date' => 'required|date',
+            'age_in_weeks' => 'required|integer|min:0',
             'initial_quantity' => 'required|integer|min:1',
             'source' => 'nullable|string|max:255',
             'status' => 'required|in:active,completed,transferred',
@@ -53,8 +55,9 @@ class Flocks extends Component
             session()->flash('status', 'Flock created successfully.');
         }
 
-        $this->reset(['selectedFarm', 'coop_id', 'batch_number', 'breed', 'placement_date', 'initial_quantity', 'source', 'status', 'expected_end_date', 'notes', 'editingId', 'showForm']);
+        $this->reset(['selectedFarm', 'coop_id', 'batch_number', 'breed', 'placement_date', 'age_in_weeks', 'initial_quantity', 'source', 'status', 'expected_end_date', 'notes', 'editingId', 'showForm']);
         $this->status = 'active';
+        $this->age_in_weeks = 0;
     }
 
     public function edit($id): void
@@ -66,6 +69,7 @@ class Flocks extends Component
         $this->batch_number = $flock->batch_number;
         $this->breed = $flock->breed ?? '';
         $this->placement_date = $flock->placement_date->format('Y-m-d');
+        $this->age_in_weeks = $flock->age_in_weeks ?? 0;
         $this->initial_quantity = $flock->initial_quantity;
         $this->source = $flock->source ?? '';
         $this->status = $flock->status;
@@ -82,8 +86,9 @@ class Flocks extends Component
 
     public function cancel(): void
     {
-        $this->reset(['selectedFarm', 'coop_id', 'batch_number', 'breed', 'placement_date', 'initial_quantity', 'source', 'status', 'expected_end_date', 'notes', 'editingId', 'showForm']);
+        $this->reset(['selectedFarm', 'coop_id', 'batch_number', 'breed', 'placement_date', 'age_in_weeks', 'initial_quantity', 'source', 'status', 'expected_end_date', 'notes', 'editingId', 'showForm']);
         $this->status = 'active';
+        $this->age_in_weeks = 0;
     }
 
     public function render()

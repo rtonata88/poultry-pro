@@ -93,7 +93,6 @@
                                     <th class="px-4 py-3 text-right text-xs font-medium text-zinc-500 uppercase tracking-wider">{{ __('Quantity') }}</th>
                                     <th class="px-4 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider">{{ __('Recipient') }}</th>
                                     <th class="px-4 py-3 text-left text-xs font-medium text-zinc-500 uppercase tracking-wider">{{ __('Reason') }}</th>
-                                    <th class="px-4 py-3 text-right text-xs font-medium text-zinc-500 uppercase tracking-wider">{{ __('Amount') }}</th>
                                     <th class="px-4 py-3 text-right text-xs font-medium text-zinc-500 uppercase tracking-wider">{{ __('Actions') }}</th>
                                 </tr>
                             </thead>
@@ -116,21 +115,13 @@
                                         </td>
                                         <td class="px-4 py-3 text-sm text-right text-zinc-900 dark:text-zinc-100 font-semibold whitespace-nowrap">
                                             {{ number_format($dispatch->quantity) }}
+                                            <span class="text-xs text-zinc-500 font-normal ml-1">({{ number_format($dispatch->quantity / 30, 1) }} trays)</span>
                                         </td>
                                         <td class="px-4 py-3 text-sm text-zinc-900 dark:text-zinc-100">
                                             {{ $dispatch->recipient_name }}
                                         </td>
                                         <td class="px-4 py-3 text-sm text-zinc-900 dark:text-zinc-100">
                                             {{ $dispatch->dispatch_reason ?? '-' }}
-                                        </td>
-                                        <td class="px-4 py-3 text-sm text-right whitespace-nowrap">
-                                            @if ($dispatch->dispatch_type === 'sale' && $dispatch->total_amount)
-                                                <span class="text-green-600 dark:text-green-400 font-semibold">
-                                                    {{ number_format($dispatch->total_amount, 2) }}
-                                                </span>
-                                            @else
-                                                <span class="text-zinc-400">-</span>
-                                            @endif
                                         </td>
                                         <td class="px-4 py-3 text-sm text-right whitespace-nowrap">
                                             <div class="flex items-center justify-end gap-2">
@@ -164,7 +155,7 @@
                                         <flux:badge size="sm" :variant="$dispatch->dispatch_type === 'sale' ? 'success' : 'warning'">
                                             {{ $dispatch->dispatch_type === 'sale' ? __('Sale') : __('Owner Consumption') }}
                                         </flux:badge>
-                                        <flux:badge size="sm">{{ number_format($dispatch->quantity) }} eggs</flux:badge>
+                                        <flux:badge size="sm">{{ number_format($dispatch->quantity) }} eggs ({{ number_format($dispatch->quantity / 30, 1) }} trays)</flux:badge>
                                     </div>
 
                                     <p class="text-sm text-zinc-600 dark:text-zinc-400 mt-2 flex items-center gap-1">
@@ -181,12 +172,6 @@
                                             <div>
                                                 <span class="text-zinc-500 block">Reason</span>
                                                 <p class="font-semibold text-zinc-900 dark:text-zinc-100 mt-1">{{ $dispatch->dispatch_reason }}</p>
-                                            </div>
-                                        @endif
-                                        @if ($dispatch->dispatch_type === 'sale' && $dispatch->total_amount)
-                                            <div>
-                                                <span class="text-zinc-500 block">Amount</span>
-                                                <p class="font-semibold text-green-600 dark:text-green-400 mt-1">{{ number_format($dispatch->total_amount, 2) }}</p>
                                             </div>
                                         @endif
                                     </div>

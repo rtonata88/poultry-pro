@@ -5,7 +5,6 @@ namespace App\Livewire\Operations;
 use App\Models\EggDailyProduction;
 use App\Models\EggDispatch;
 use App\Models\Farm;
-use App\Models\PaymentMethod;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -19,9 +18,6 @@ class EggDispatches extends Component
     public $dispatch_type = 'owner_consumption';
     public $dispatch_reason = '';
     public $recipient_name = '';
-    public $sale_price = 0;
-    public $total_amount = 0;
-    public $payment_method_id = '';
     public $notes = '';
     public $editingId = null;
     public $showForm = false;
@@ -43,12 +39,6 @@ class EggDispatches extends Component
     public function updatedQuantity()
     {
         $this->validateAvailableStock();
-        $this->calculateTotalAmount();
-    }
-
-    public function updatedSalePrice()
-    {
-        $this->calculateTotalAmount();
     }
 
     private function validateAvailableStock()
@@ -75,15 +65,6 @@ class EggDispatches extends Component
 
         if ($this->quantity > $availableStock) {
             $this->quantity = $availableStock;
-        }
-    }
-
-    private function calculateTotalAmount()
-    {
-        if ($this->dispatch_type === 'sale') {
-            $this->total_amount = (float)$this->quantity * (float)$this->sale_price;
-        } else {
-            $this->total_amount = 0;
         }
     }
 
@@ -136,9 +117,6 @@ class EggDispatches extends Component
         $this->dispatch_type = $dispatch->dispatch_type;
         $this->dispatch_reason = $dispatch->dispatch_reason ?? '';
         $this->recipient_name = $dispatch->recipient_name;
-        $this->sale_price = $dispatch->sale_price ?? 0;
-        $this->total_amount = $dispatch->total_amount ?? 0;
-        $this->payment_method_id = $dispatch->payment_method_id ?? '';
         $this->notes = $dispatch->notes ?? '';
         $this->showForm = true;
     }
@@ -151,14 +129,14 @@ class EggDispatches extends Component
 
     public function cancel(): void
     {
-        $this->reset(['farm_id', 'quantity', 'dispatch_type', 'dispatch_reason', 'recipient_name', 'sale_price', 'total_amount', 'payment_method_id', 'notes', 'editingId', 'showForm']);
+        $this->reset(['farm_id', 'quantity', 'dispatch_type', 'dispatch_reason', 'recipient_name', 'notes', 'editingId', 'showForm']);
         $this->date = now()->format('Y-m-d');
         $this->dispatch_type = 'owner_consumption';
     }
 
     public function render()
     {
-        $dispatchesQuery = EggDispatch::with(['farm', 'paymentMethod'])
+        $dispatchesQuery = EggDispatch::with(['farm'])
             ->latest('date');
 
         if ($this->filterFarm) {
@@ -178,7 +156,6 @@ class EggDispatches extends Component
         return view('livewire.operations.egg-dispatches', [
             'dispatches' => $dispatchesQuery->paginate(15),
             'farms' => $farms,
-            'paymentMethods' => PaymentMethod::where('is_active', true)->orderBy('name')->get(),
         ]);
     }
 }

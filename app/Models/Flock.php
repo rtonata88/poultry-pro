@@ -15,6 +15,7 @@ class Flock extends Model
         'batch_number',
         'breed',
         'placement_date',
+        'age_in_weeks',
         'initial_quantity',
         'source',
         'status',
@@ -28,6 +29,7 @@ class Flock extends Model
         'expected_end_date' => 'date',
         'actual_end_date' => 'date',
         'initial_quantity' => 'integer',
+        'age_in_weeks' => 'integer',
     ];
 
     public function coop(): BelongsTo
@@ -42,10 +44,12 @@ class Flock extends Model
 
     /**
      * Calculate age in weeks from placement date
+     * Takes into account the age at placement
      */
     public function ageInWeeks(?Carbon $date = null): int
     {
         $date = $date ?? now();
-        return (int) floor($this->placement_date->diffInWeeks($date));
+        $weeksSincePlacement = (int) floor($this->placement_date->diffInWeeks($date));
+        return $this->age_in_weeks + $weeksSincePlacement;
     }
 }
